@@ -1,0 +1,5 @@
+timeout: 2000
+mark: 3000
+salt: secret
+abort_on_fail: false
+nanika: 2800

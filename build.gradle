@@ -1,0 +1,111 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+group = 'org.hogel'
+archivesBaseName = 'ya-config-loader'
+version = '0.0.1-SNAPSHOT'
+
+sourceCompatibility = 1.7
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.slf4j:slf4j-api:1.7.7'
+    compile 'org.yaml:snakeyaml:1.13'
+
+    testCompile 'junit:junit:4.11'
+    testCompile 'org.mockito:mockito-core:1.9.5'
+    testCompile 'com.google.guava:guava:17.0'
+    testCompile 'ch.qos.logback:logback-classic:1.1.2'
+}
+
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives jar, sourcesJar, javadocJar
+}
+
+if (!hasProperty('SKIP_SIGNING')) {
+    signing {
+        sign configurations.archives
+    }
+}
+
+def nexusUsername() {
+    return hasProperty('NEXUS_USERNAME') ? NEXUS_USERNAME : ""
+}
+
+def nexusPassword() {
+    return hasProperty('NEXUS_PASSWORD') ? NEXUS_PASSWORD : ""
+}
+
+uploadArchives {
+  repositories {
+    mavenDeployer {
+      beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+      repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+        authentication(userName: nexusUsername(), password: nexusPassword())
+      }
+
+      snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+          authentication(userName: nexusUsername(), password: nexusPassword())
+      }
+
+      pom.project {
+        name archivesBaseName
+        packaging 'jar'
+        artifactId archivesBaseName
+        description 'Config loader library for Java'
+        url 'https://github.com/hogelog/ya-config-loader'
+
+        scm {
+          connection 'scm:git@github.com:hogelog/ya-config-loader.git'
+          developerConnection 'scm:git@github.com:hogelog/ya-config-loader.git'
+          url 'https://github.com/hogelog/ya-config-loader'
+        }
+
+        licenses {
+          license {
+            name 'The MIT License (MIT)'
+            url 'http://opensource.org/licenses/MIT'
+          }
+        }
+
+        developers {
+          developer {
+            id 'hogelog'
+            name 'Sunao Komuro'
+            email 'konbu.komuro@gmail.com'
+          }
+        }
+      }
+    }
+  }
+}
+
+task releaseTag(type:Exec) {
+    commandLine 'git', 'tag', "$version"
+}
+
+task releasePush(type:Exec) {
+    commandLine 'git', 'push', "--tags"
+}
+
+task release(dependsOn: [check, publish, releaseTag, releasePush, uploadArchives])
+publish.mustRunAfter check
+releaseTag.mustRunAfter publish
+releasePush.mustRunAfter releaseTag
+uploadArchives.mustRunAfter releasePush
