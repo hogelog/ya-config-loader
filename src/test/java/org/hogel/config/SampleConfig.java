@@ -5,7 +5,7 @@ import org.hogel.config.annotation.*;
 import java.io.IOException;
 import java.nio.file.Path;
 
-public class SampleConfig extends AbstractConfig {
+public class SampleConfig extends Config {
     @Attribute
     @IntDefaultValue(1000)
     private int timeout;

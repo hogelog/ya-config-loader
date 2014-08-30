@@ -7,7 +7,7 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 
-public class ComplexConfig extends AbstractConfig {
+public class ComplexConfig extends Config {
     @Attribute
     List<Integer> list;
 
