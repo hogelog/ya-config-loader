@@ -1,22 +1,14 @@
 package org.hogel.config;
 
 public class InvalidConfigException extends Exception {
-    public InvalidConfigException() {
-    }
+    private final Config config;
 
-    public InvalidConfigException(String message) {
-        super(message);
-    }
-
-    public InvalidConfigException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public InvalidConfigException(Throwable cause) {
+    public InvalidConfigException(Config config, Throwable cause) {
         super(cause);
+        this.config = config;
     }
 
-    public InvalidConfigException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
+    public Config getConfig() {
+        return config;
     }
 }

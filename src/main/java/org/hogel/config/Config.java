@@ -1,6 +1,9 @@
 package org.hogel.config;
 
 import org.hogel.config.annotation.*;
+import org.hogel.config.loader.AttributeLoader;
+import org.hogel.config.loader.InvalidAttributeException;
+import org.hogel.config.loader.LoaderFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
@@ -55,12 +58,12 @@ public abstract class Config implements Serializable {
             }
         } catch (IllegalAccessException e) {
             LOG.error(e.getMessage(), e);
-            throw new InvalidConfigException(e);
+            throw new InvalidConfigException(this, e);
         }
         return true;
     }
 
-    private void loadFieldValue(Field field, Map<String, Object> configMap) throws IllegalAccessException {
+    private void loadFieldValue(Field field, Map<String, Object> configMap) throws IllegalAccessException, InvalidConfigException {
         Annotation[] annotations = field.getAnnotations();
         Attribute attributeAnnotation = field.getAnnotation(Attribute.class);
         if (attributeAnnotation == null) {
@@ -74,28 +77,12 @@ public abstract class Config implements Serializable {
             name = attributeAnnotation.name();
         }
 
-        if (configMap.containsKey(name)) {
-            setFieldValue(field, configMap.get(name));
-            return;
-        }
-
-        for (Annotation annotation : annotations) {
-            if (annotation instanceof IntDefaultValue) {
-                setFieldValue(field, ((IntDefaultValue) annotation).value());
-                return;
-            } else if (annotation instanceof LongDefaultValue) {
-                setFieldValue(field, ((LongDefaultValue) annotation).value());
-                return;
-            } else if (annotation instanceof DoubleDefaultValue) {
-                setFieldValue(field, ((DoubleDefaultValue) annotation).value());
-                return;
-            } else if (annotation instanceof BooleanDefaultValue) {
-                setFieldValue(field, ((BooleanDefaultValue) annotation).value());
-                return;
-            } else if (annotation instanceof StringDefaultValue) {
-                setFieldValue(field, ((StringDefaultValue) annotation).value());
-                return;
-            }
+        Object value = configMap.get(name);
+        AttributeLoader loader = LoaderFactory.getInstance(attributeAnnotation.loader());
+        try {
+            setFieldValue(field, loader.load(annotations, value));
+        } catch (InvalidAttributeException e) {
+            throw new InvalidConfigException(this, e);
         }
     }
 
@@ -104,5 +91,13 @@ public abstract class Config implements Serializable {
             field.setAccessible(true);
         }
         field.set(this, value);
+    }
+
+    public Path getPath() {
+        return path;
+    }
+
+    public FileTime getLastModified() {
+        return lastModified;
     }
 }
