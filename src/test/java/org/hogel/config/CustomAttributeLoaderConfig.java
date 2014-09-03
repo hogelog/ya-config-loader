@@ -6,14 +6,14 @@ import org.hogel.config.loader.CustomObjectLoader;
 import java.io.IOException;
 import java.nio.file.Path;
 
-public class CustomLoaderConfig extends Config {
+public class CustomAttributeLoaderConfig extends Config {
     @Attribute(name = "custom", loader = CustomObjectLoader.class)
     CustomObject customObject;
 
     @Attribute(loader = X10IntLoader.class)
     int count;
 
-    public CustomLoaderConfig(Path path) throws IOException, InvalidConfigException {
+    public CustomAttributeLoaderConfig(Path path) throws IOException, InvalidConfigException {
         super(path);
     }
 

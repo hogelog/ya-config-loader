@@ -5,22 +5,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LoaderFactory {
-    private static Map<Class<? extends AttributeLoader>, AttributeLoader> loaderMap = new HashMap<>();
+    private static Map<Class<? extends Loader>, Loader> loaderMap = new HashMap<>();
 
-    public synchronized static AttributeLoader getInstance(Class<? extends AttributeLoader> loaderClass) {
-        AttributeLoader loader = loaderMap.get(loaderClass);
+    public synchronized static <T extends Loader> T getInstance(Class<T> loaderClass) {
+        Loader loader = loaderMap.get(loaderClass);
         if (loader != null) {
-            return loader;
+            return (T) loader;
         }
-        AttributeLoader newLoader = newLoader(loaderClass);
+        T newLoader = newLoader(loaderClass);
         loaderMap.put(loaderClass, newLoader);
         return newLoader;
     }
 
-    private static AttributeLoader newLoader(Class<? extends AttributeLoader> loaderClass) {
+    private static <T extends Loader> T newLoader(Class<T> loaderClass) {
         try {
-            Constructor<? extends AttributeLoader> constructor = loaderClass.getConstructor();
-            return constructor.newInstance();
+            Constructor<? extends Loader> constructor = loaderClass.getConstructor();
+            return (T) constructor.newInstance();
         } catch (ReflectiveOperationException e) {
             throw new IllegalStateException(e);
         }

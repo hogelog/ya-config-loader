@@ -14,6 +14,7 @@ public class SampleConfigTest extends ConfigTestCase {
         assertThat(sampleConfig.getSalt(), is("salt"));
         assertThat(sampleConfig.isAbortOnFail(), is(true));
         assertThat(sampleConfig.getNanika(), is(1800.0));
+        assertThat(sampleConfig.getIgnore(), is("ignore"));
     }
 
     @Test
@@ -24,5 +25,6 @@ public class SampleConfigTest extends ConfigTestCase {
         assertThat(sampleConfig.getSalt(), is("secret"));
         assertThat(sampleConfig.isAbortOnFail(), is(false));
         assertThat(sampleConfig.getNanika(), is(2800.0));
+        assertThat(sampleConfig.getIgnore(), is("ignore"));
     }
 }

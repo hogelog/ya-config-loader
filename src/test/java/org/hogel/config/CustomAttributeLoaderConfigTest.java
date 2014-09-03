@@ -9,10 +9,10 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
-public class CustomLoaderConfigTest extends ConfigTestCase {
+public class CustomAttributeLoaderConfigTest extends ConfigTestCase {
     @Test
     public void load() throws Exception {
-        CustomLoaderConfig config = new CustomLoaderConfig(testConfigPath("custom.yaml"));
+        CustomAttributeLoaderConfig config = new CustomAttributeLoaderConfig(testConfigPath("custom.yaml"));
 
         assertThat(config.getCustomObject().getA(), is(100));
         assertThat(config.getCustomObject().getB(), is(1000));
@@ -28,7 +28,7 @@ public class CustomLoaderConfigTest extends ConfigTestCase {
     public void failure() throws Exception {
         Path configPath = testConfigPath("invalid_custom.yaml");
         try {
-            new CustomLoaderConfig(configPath);
+            new CustomAttributeLoaderConfig(configPath);
             assertTrue(false);
         } catch (InvalidConfigException e) {
             Config config = e.getConfig();

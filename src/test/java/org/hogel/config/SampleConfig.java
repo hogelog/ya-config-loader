@@ -26,6 +26,8 @@ public class SampleConfig extends Config {
     @DoubleDefaultValue(1800.0)
     private double nanika;
 
+    private String ignore = "ignore";
+
     public SampleConfig(Path path) throws IOException, InvalidConfigException {
         super(path);
     }
@@ -48,5 +50,9 @@ public class SampleConfig extends Config {
 
     public double getNanika() {
         return nanika;
+    }
+
+    public String getIgnore() {
+        return ignore;
     }
 }
