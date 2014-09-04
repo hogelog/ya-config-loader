@@ -2,5 +2,8 @@ language: java
 env:
   global:
     - ORG_GRADLE_PROJECT_SKIP_SIGNING=true
+jdk:
+  - oraclejdk7
 script:
   - ./gradlew check
+  - ./gradlew test jacocoTestReport coveralls

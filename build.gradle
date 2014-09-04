@@ -2,12 +2,24 @@ apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
 apply plugin: 'signing'
+apply plugin: 'jacoco'
+apply plugin: 'com.github.kt3k.coveralls'
 
 group = 'org.hogel'
 archivesBaseName = 'ya-config-loader'
 version = '0.0.2-SNAPSHOT'
 
 sourceCompatibility = 1.7
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.0.0'
+    }
+}
 
 repositories {
     mavenCentral()
@@ -94,6 +106,13 @@ uploadArchives {
       }
     }
   }
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
 }
 
 task releaseTag(type:Exec) {
