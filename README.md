@@ -1,4 +1,4 @@
-# ya-config-loader [![Travis CI Status](https://travis-ci.org/hogelog/ya-config-loader.svg)](https://travis-ci.org/hogelog/ya-config-loader) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.hogel/ya-config-loader/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.hogel/ya-config-loader)
+# ya-config-loader [![Travis CI Status](https://travis-ci.org/hogelog/ya-config-loader.svg)](https://travis-ci.org/hogelog/ya-config-loader) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.hogel/ya-config-loader/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.hogel/ya-config-loader) [![Coverage Status](https://img.shields.io/coveralls/hogelog/ya-config-loader.svg)](https://coveralls.io/r/hogelog/ya-config-loader?branch=master)
 
 Bookscan client for Java
 
