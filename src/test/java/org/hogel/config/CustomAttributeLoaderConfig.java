@@ -6,7 +6,7 @@ import org.hogel.config.loader.CustomObjectLoader;
 import java.io.IOException;
 import java.nio.file.Path;
 
-public class CustomAttributeLoaderConfig extends Config {
+public class CustomAttributeLoaderConfig extends ReloadableConfig {
     @Attribute(name = "custom", loader = CustomObjectLoader.class)
     CustomObject customObject;
 

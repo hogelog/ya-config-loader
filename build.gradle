@@ -35,6 +35,15 @@ dependencies {
     testCompile 'ch.qos.logback:logback-classic:1.1.2'
 }
 
+sourceSets {
+    main {
+        output.resourcesDir = 'build/classes/main'
+    }
+    test {
+        output.resourcesDir = 'build/classes/test'
+    }
+}
+
 task javadocJar(type: Jar) {
     classifier = 'javadoc'
     from javadoc

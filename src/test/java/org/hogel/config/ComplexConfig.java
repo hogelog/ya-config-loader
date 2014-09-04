@@ -3,7 +3,6 @@ package org.hogel.config;
 import org.hogel.config.annotation.Attribute;
 
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 
@@ -14,8 +13,7 @@ public class ComplexConfig extends Config {
     @Attribute
     Map<String, Object> table;
 
-    public ComplexConfig(Path path) throws IOException, InvalidConfigException {
-        super(path);
+    public ComplexConfig() throws IOException, InvalidConfigException {
     }
 
     public List<Integer> getList() {

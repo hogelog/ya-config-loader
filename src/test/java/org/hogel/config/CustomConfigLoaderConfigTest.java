@@ -8,7 +8,8 @@ import static org.junit.Assert.assertThat;
 public class CustomConfigLoaderConfigTest extends ConfigTestCase {
     @Test
     public void load() throws Exception {
-        CustomConfigLoaderConfig config = new CustomConfigLoaderConfig(testConfigPath("custom.yaml"));
+        CustomConfigLoaderConfig config = new CustomConfigLoaderConfig();
+        config.load(testConfigPath("custom.yaml"));
 
         assertThat(config.getValue(), is(1000));
     }

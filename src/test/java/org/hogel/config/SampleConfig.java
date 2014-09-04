@@ -1,9 +1,13 @@
 package org.hogel.config;
 
-import org.hogel.config.annotation.*;
+import org.hogel.config.annotation.Attribute;
+import org.hogel.config.annotation.BooleanDefaultValue;
+import org.hogel.config.annotation.DoubleDefaultValue;
+import org.hogel.config.annotation.IntDefaultValue;
+import org.hogel.config.annotation.LongDefaultValue;
+import org.hogel.config.annotation.StringDefaultValue;
 
 import java.io.IOException;
-import java.nio.file.Path;
 
 public class SampleConfig extends Config {
     @Attribute
@@ -28,8 +32,7 @@ public class SampleConfig extends Config {
 
     private String ignore = "ignore";
 
-    public SampleConfig(Path path) throws IOException, InvalidConfigException {
-        super(path);
+    public SampleConfig() throws IOException, InvalidConfigException {
     }
 
     public int getTimeout() {

@@ -10,11 +10,12 @@ import org.yaml.snakeyaml.Yaml;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.Reader;
 import java.io.Serializable;
+import java.io.StringReader;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.attribute.FileTime;
 
 @LoadWith(BasicConfigLoader.class)
 public abstract class Config implements Serializable {
@@ -24,36 +25,22 @@ public abstract class Config implements Serializable {
 
     private final Yaml yaml = new Yaml();
 
-    private final Path path;
-
-    private FileTime lastModified;
-
-    public Config(Path path) throws IOException, InvalidConfigException {
-        this.path = path;
-        load();
+    public Config() throws IOException, InvalidConfigException {
     }
 
-    public synchronized boolean load() throws IOException, InvalidConfigException {
-        FileTime fileLastModified = Files.getLastModifiedTime(path);
-        if (lastModified != null && lastModified.compareTo(fileLastModified) >= 0) {
-            return false;
+    public void load(Path path) throws IOException, InvalidConfigException {
+        try (BufferedReader reader = Files.newBufferedReader(path, UTF_8)) {
+            load(reader);
         }
-
-        lastModified = fileLastModified;
-
-        try (BufferedReader yamlReader = Files.newBufferedReader(path, UTF_8)) {
-            LoadWith loadWith = getClass().getAnnotation(LoadWith.class);
-            ConfigLoader configLoader = LoaderFactory.getInstance(loadWith.value());
-            configLoader.load(this, yaml.load(yamlReader));
-        }
-        return true;
     }
 
-    public Path getPath() {
-        return path;
+    public void load(String config) throws InvalidConfigException {
+        load(new StringReader(config));
     }
 
-    public FileTime getLastModified() {
-        return lastModified;
+    public void load(Reader reader) throws InvalidConfigException {
+        LoadWith loadWith = getClass().getAnnotation(LoadWith.class);
+        ConfigLoader configLoader = LoaderFactory.getInstance(loadWith.value());
+        configLoader.load(this, yaml.load(reader));
     }
 }

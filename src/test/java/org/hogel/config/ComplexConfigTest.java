@@ -13,7 +13,8 @@ public class ComplexConfigTest extends ConfigTestCase {
     @SuppressWarnings("unchecked")
     @Test
     public void load() throws Exception {
-        ComplexConfig config = new ComplexConfig(testConfigPath("complex.yaml"));
+        ComplexConfig config = new ComplexConfig();
+        config.load(testConfigPath("complex.yaml"));
 
         assertThat(config.getList(), is((List<Integer>) ImmutableList.of(10, 20, 30)));
         assertThat((int) config.getTable().get("a"), is(1000));
