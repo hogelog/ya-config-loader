@@ -25,7 +25,7 @@ public abstract class Config implements Serializable {
 
     private final Yaml yaml = new Yaml();
 
-    public Config() throws IOException, InvalidConfigException {
+    public Config() {
     }
 
     public void load(Path path) throws IOException, InvalidConfigException {

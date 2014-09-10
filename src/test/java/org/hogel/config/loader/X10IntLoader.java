@@ -1,7 +1,4 @@
-package org.hogel.config;
-
-import org.hogel.config.loader.AttributeLoader;
-import org.hogel.config.loader.InvalidAttributeException;
+package org.hogel.config.loader;
 
 import java.lang.annotation.Annotation;
 

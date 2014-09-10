@@ -2,6 +2,7 @@ package org.hogel.config;
 
 import org.hogel.config.annotation.Attribute;
 import org.hogel.config.loader.CustomObjectLoader;
+import org.hogel.config.loader.X10IntLoader;
 
 import java.io.IOException;
 import java.nio.file.Path;
