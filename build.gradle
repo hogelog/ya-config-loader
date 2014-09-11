@@ -7,7 +7,7 @@ apply plugin: 'com.github.kt3k.coveralls'
 
 group = 'org.hogel'
 archivesBaseName = 'ya-config-loader'
-version = '0.0.2'
+version = '0.0.3-SNAPSHOT'
 
 sourceCompatibility = 1.7
 
