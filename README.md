@@ -10,7 +10,7 @@ Yaml config file loader library for Java.
     <dependency>
       <groupId>org.hogel</groupId>
       <artifactId>ya-config-loader</artifactId>
-      <version>0.0.1</version>
+      <version>0.0.2</version>
     </dependency>
   </dependencies>
 </project>
@@ -20,6 +20,6 @@ Yaml config file loader library for Java.
 
 ```gradle
 dependencies {
-    compile 'org.hogel:ya-config-loader:0.0.1'
+    compile 'org.hogel:ya-config-loader:0.0.2'
 }
 ```
