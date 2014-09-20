@@ -4,6 +4,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'signing'
 apply plugin: 'jacoco'
 apply plugin: 'com.github.kt3k.coveralls'
+apply plugin: 'findbugs'
 
 group = 'org.hogel'
 archivesBaseName = 'ya-config-loader'
@@ -111,6 +112,13 @@ uploadArchives {
 jacocoTestReport {
     reports {
         xml.enabled = true
+        html.enabled = true
+    }
+}
+
+tasks.withType(FindBugs) {
+    reports {
+        xml.enabled = false
         html.enabled = true
     }
 }

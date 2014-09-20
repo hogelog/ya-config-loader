@@ -1,6 +1,8 @@
 package org.hogel.config;
 
-public class CustomObject {
+import java.io.Serializable;
+
+public class CustomObject implements Serializable {
     private final int a;
     private final int b;
 
