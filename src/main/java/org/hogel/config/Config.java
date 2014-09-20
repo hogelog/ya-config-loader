@@ -4,8 +4,6 @@ import org.hogel.config.annotation.LoadWith;
 import org.hogel.config.loader.BasicConfigLoader;
 import org.hogel.config.loader.ConfigLoader;
 import org.hogel.config.loader.LoaderFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.BufferedReader;
@@ -19,8 +17,6 @@ import java.nio.file.Path;
 
 @LoadWith(BasicConfigLoader.class)
 public abstract class Config implements Serializable {
-    private static final Logger LOG = LoggerFactory.getLogger(Config.class);
-
     private static final Charset UTF_8 = Charset.forName("UTF-8");
 
     private final Yaml yaml = new Yaml();
@@ -39,8 +35,12 @@ public abstract class Config implements Serializable {
     }
 
     public void load(Reader reader) throws InvalidConfigException {
+        load(yaml.load(reader));
+    }
+
+    public void load(Object source) throws InvalidConfigException {
         LoadWith loadWith = getClass().getAnnotation(LoadWith.class);
         ConfigLoader configLoader = LoaderFactory.getInstance(loadWith.value());
-        configLoader.load(this, yaml.load(reader));
+        configLoader.load(this, source);
     }
 }

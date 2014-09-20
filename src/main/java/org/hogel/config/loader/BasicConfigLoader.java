@@ -7,7 +7,7 @@ import org.hogel.config.annotation.Attribute;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +17,7 @@ public class BasicConfigLoader implements ConfigLoader<Config> {
         @SuppressWarnings("unchecked")
         Map<String, Object> configMap = (Map<String, Object>) source;
         if (configMap == null) {
-            configMap = new HashMap<>();
+            configMap = Collections.emptyMap();
         }
 
         Class<? extends Config> klass = config.getClass();
@@ -73,5 +73,4 @@ public class BasicConfigLoader implements ConfigLoader<Config> {
         }
         field.set(config, value);
     }
-
 }
