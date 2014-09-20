@@ -6,7 +6,9 @@ import org.hogel.config.annotation.Attribute;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class BasicConfigLoader implements ConfigLoader<Config> {
@@ -19,7 +21,7 @@ public class BasicConfigLoader implements ConfigLoader<Config> {
         }
 
         Class<? extends Config> klass = config.getClass();
-        Field[] fields = klass.getDeclaredFields();
+        List<Field> fields = getConfigFields(klass);
         try {
             for (Field field : fields) {
                 loadFieldValue(config, field, configMap);
@@ -27,6 +29,19 @@ public class BasicConfigLoader implements ConfigLoader<Config> {
         } catch (IllegalAccessException e) {
             throw new InvalidConfigException(config, e);
         }
+    }
+
+    private List<Field> getConfigFields(Class<? extends Config> configClass) {
+        List<Field> configFields = new ArrayList<>();
+        Class klass = configClass;
+        do {
+            Field[] fields = klass.getDeclaredFields();
+            for (Field field : fields) {
+                configFields.add(field);
+            }
+            klass = klass.getSuperclass();
+        } while (Config.class != klass);
+        return configFields;
     }
 
     private void loadFieldValue(Config config, Field field, Map<String, Object> configMap) throws IllegalAccessException, InvalidConfigException {

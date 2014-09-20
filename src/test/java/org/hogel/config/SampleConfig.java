@@ -7,8 +7,6 @@ import org.hogel.config.annotation.IntDefaultValue;
 import org.hogel.config.annotation.LongDefaultValue;
 import org.hogel.config.annotation.StringDefaultValue;
 
-import java.io.IOException;
-
 public class SampleConfig extends Config {
     @Attribute
     @IntDefaultValue(1000)
@@ -31,9 +29,6 @@ public class SampleConfig extends Config {
     private double nanika;
 
     private String ignore = "ignore";
-
-    public SampleConfig() throws IOException, InvalidConfigException {
-    }
 
     public int getTimeout() {
         return timeout;
